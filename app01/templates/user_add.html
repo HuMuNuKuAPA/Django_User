@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">新增员工</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" action="/user_add/">
+                    {% csrf_token %}
+                    <div class="form-group">
+
+                        <label for="exampleInputEmail1">姓名</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" name="name"
+                               placeholder="姓名">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">密码</label>
+                        <input type="password" class="form-control" id="exampleInputEmail1" name="pwd"
+                               placeholder="密码">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">年龄</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" name="age"
+                               placeholder="年龄">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">账户</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" name="ac"
+                               placeholder="账户">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">创建时间</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" name="ctime"
+                               placeholder="创建时间">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">性别</label>
+                        <select class="form-control" name="gender" id="">
+                            {% for obj in gender %}
+                                <option value="{{ obj.0 }}">{{ obj.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">部门</label>
+                        <select class="form-control" name="depart" id="">
+                            {% for obj in depart %}
+                                <option value="{{ obj.id }}">{{ obj.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

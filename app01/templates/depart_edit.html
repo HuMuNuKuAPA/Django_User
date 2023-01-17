@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">张庆青每天都对我很凶</label>
+                <input type="text" class="form-control" id="exampleInputEmail1"  name="depart" value="{{ title }}">
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+{% endblock %}
