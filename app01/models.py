@@ -17,7 +17,8 @@ class UserInfo(models.Model):
     password = models.CharField(verbose_name='密码', max_length=32)
     age = models.IntegerField(verbose_name='年龄')
     accont = models.DecimalField(verbose_name='账户余额', max_digits=10, decimal_places=2, default=0)
-    create_time = models.DateTimeField(verbose_name='入职时间')
+    # create_time = models.DateTimeField(verbose_name='入职时间')  # 时间格式是：年 月 日    时：分
+    create_time = models.DateField(verbose_name='入职时间')  # 时间格式是：年 月 日
 
     # 外键约束
     #   to= 后面跟的是需要外键连接的表

@@ -103,7 +103,7 @@ from django import forms
 
 class UserModelForm(forms.ModelForm):
     # password = forms.CharField(widget=forms.PasswordInput,min_length=3)
-    name = forms.CharField(min_length=3,label="姓名")
+    name = forms.CharField(min_length=2,label="姓名")
 
     class Meta:
         model = UserInfo
@@ -129,6 +129,7 @@ class UserModelForm(forms.ModelForm):
 def user_add_modelform(request):
     if request.method == 'GET':
         form = UserModelForm()
+        print('form的内容',form)
         return render(request,'user_add_modelform.html',{'form':form})
 
     # 用户POST提交数据，数据校验
@@ -141,4 +142,31 @@ def user_add_modelform(request):
         return redirect('/user_list/')
     else:
         return render(request, 'user_add_modelform.html', {'form': form})
+
+
+def user_edit(request,nid):
+    """编辑用户"""
+    # print(nid)
+    if request.method == "GET":
+        row_data = UserInfo.objects.filter(id=nid).first()
+        form = UserModelForm(instance=row_data)
+
+        return render(request,'user_edit.html',{'form':form})
+
+
+    row_data = UserInfo.objects.filter(id=nid).first()
+    dir(row_data)
+    form = UserModelForm(data=request.POST,instance=row_data)
+    if form.is_valid():
+        # 将数据保存至数据库
+        form.save()
+        return redirect('/user_list/')
+    else:
+        return render(request, 'user_add_modelform.html', {'form': form})
+
+
+def user_delete(request,nid):
+    """用户删除"""
+    UserInfo.objects.filter(id=nid).delete()
+    return redirect('/user_list/')
 

@@ -32,4 +32,6 @@ urlpatterns = [
 
     # path('user_add/form/', views.user_add_form),  form的实现当时
     path('user_add/modelform/', views.user_add_modelform),
+    path('user/<int:nid>/edit/', views.user_edit),
+    path('user/<int:nid>/delete/', views.user_delete),
 ]
