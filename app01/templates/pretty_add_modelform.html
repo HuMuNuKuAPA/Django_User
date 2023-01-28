@@ -1,16 +1,15 @@
-{% extends "layout.html" %}
-
+{% extends 'layout.html' %}
 
 {% block content %}
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">编辑员工</h3>
+                <h3 class="panel-title">新增号码</h3>
             </div>
             <div class="panel-body">
                 <form method="post"  novalidate>
                     {% csrf_token %}
-                    {% for field in form %}
+                    {% for field in forms %}
                     <div class="form-group">
 
                         <label >{{ field.label }}</label>

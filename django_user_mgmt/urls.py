@@ -34,4 +34,9 @@ urlpatterns = [
     path('user_add/modelform/', views.user_add_modelform),
     path('user/<int:nid>/edit/', views.user_edit),
     path('user/<int:nid>/delete/', views.user_delete),
+
+    # 靓号管理
+    path('phone_list/', views.phone_list),
+    path('phone_add/', views.pretty_add_modelform),
+    # path('phone/<int:nid>/edit/', views.phone_edit),
 ]

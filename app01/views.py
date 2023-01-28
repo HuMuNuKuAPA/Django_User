@@ -1,3 +1,5 @@
+import re
+
 from django.shortcuts import render,redirect,HttpResponse
 from app01.models import *
 
@@ -169,4 +171,64 @@ def user_delete(request,nid):
     """用户删除"""
     UserInfo.objects.filter(id=nid).delete()
     return redirect('/user_list/')
+
+
+def phone_list(request):
+    """靓号列表"""
+    if request.method == "GET":
+        form = PrettyNum.objects.all()
+        return render(request,'phone_list.html',{"forms":form})
+
+
+
+
+
+class PrettyModelForm(forms.ModelForm):
+    """靓号通过ModelForm方式添加的类"""
+    # 方式一：验证手机号码 通过在ModelForm的类中自己定义字段的正则表达式
+    from django.core.validators import RegexValidator
+    mobile = forms.CharField(
+        label="手机号",
+        validators=[RegexValidator(r'^1[3-9]\d{9}$','手机号格式错误')],
+    )
+
+    class Meta:
+        model = PrettyNum
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for name,field in self.fields.items():
+            # print(name,field)
+            field.widget.attrs = {'class':'form-control','placeholder':field.label}
+
+    # 方式二：通过钩子方法
+    # def clean_mobile(self):
+    #     from django.core.exceptions import ValidationError
+    #     txt_mobile = self.cleaned_data["mobile"]
+    #     re_mobile = re.match(r'^1[3-9]\d{9}$',txt_mobile)
+    #     # 验证通过返回用户输入的数据
+    #     if re_mobile:
+    #         return txt_mobile
+    #     # 验证不通过则返回报错信息
+    #     else:
+    #         raise ValidationError("格式错误")
+
+def pretty_add_modelform(request):
+    """靓号添加"""
+    if request.method == "GET":
+        form = PrettyModelForm()
+        return render(request,"pretty_add_modelform.html",{"forms":form})
+
+    # 用户POST提交数据，数据校验
+    form = PrettyModelForm(data=request.POST)
+
+    if form.is_valid():
+        # print(form.cleaned_data)
+        # 将数据保存至数据库
+        form.save()
+        return redirect('/phone_list/')
+    else:
+        return render(request, 'pretty_add_modelform.html', {'forms': form})
 
